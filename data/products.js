@@ -1,0 +1,37 @@
+// Catálogo mock con foco en iPhone 14-17 (todas variantes) y algunos productos extra
+const img = (text) => `https://placehold.co/800x600/png?text=${encodeURIComponent(text)}`;
+
+export const products = [
+  // iPhone 14 series
+  { id: 1401, name: "iPhone 14", slug: "iphone-14", category: "iPhone", price: 899999, stock: 25, image: img("iPhone 14"), shortDescription: "Rendimiento sólido y gran autonomía.", description: "Diseñado para un uso diario confiable, con una pantalla brillante y cámaras versátiles.", specs: ["Pantalla 6.1" , "Chip A16", "128GB", "Doble cámara", "Carga rápida" ] },
+  { id: 1402, name: "iPhone 14 Plus", slug: "iphone-14-plus", category: "iPhone", price: 999999, stock: 18, image: img("iPhone 14 Plus"), shortDescription: "Más pantalla, misma esencia.", description: "Pantalla más grande para contenido y productividad, manteniendo eficiencia y calidad.", specs: ["Pantalla 6.7" , "Chip A16", "128GB", "Batería ampliada", "Carga rápida" ] },
+  { id: 1403, name: "iPhone 14 Pro", slug: "iphone-14-pro", category: "iPhone", price: 1199999, stock: 12, image: img("iPhone 14 Pro"), shortDescription: "Prestaciones profesionales.", description: "Fotografía de alto nivel, pantalla fluida y potencia para tareas exigentes.", specs: ["Pantalla 6.1" , "Chip A17", "256GB", "Triple cámara Pro", "120Hz" ] },
+  { id: 1404, name: "iPhone 14 Pro Max", slug: "iphone-14-pro-max", category: "iPhone", price: 1299999, stock: 10, image: img("iPhone 14 Pro Max"), shortDescription: "El tope de la línea 14.", description: "Máxima batería, gran pantalla y cámaras profesionales.", specs: ["Pantalla 6.7" , "Chip A17", "256GB", "Triple cámara Pro", "120Hz" ] },
+
+  // iPhone 15 series
+  { id: 1501, name: "iPhone 15", slug: "iphone-15", category: "iPhone", price: 999999, stock: 30, image: img("iPhone 15"), shortDescription: "Eficiencia y diseño refinado.", description: "Gran equilibrio entre rendimiento, cámara y autonomía.", specs: ["Pantalla 6.1" , "Chip A17", "128GB", "Cámara avanzada", "USB-C" ] },
+  { id: 1502, name: "iPhone 15 Plus", slug: "iphone-15-plus", category: "iPhone", price: 1099999, stock: 20, image: img("iPhone 15 Plus"), shortDescription: "Más pantalla para disfrutar.", description: "Experiencia inmersiva para contenido y juegos con batería extendida.", specs: ["Pantalla 6.7" , "Chip A17", "128GB", "Cámara avanzada", "USB-C" ] },
+  { id: 1503, name: "iPhone 15 Pro", slug: "iphone-15-pro", category: "iPhone", price: 1299999, stock: 14, image: img("iPhone 15 Pro"), shortDescription: "Para usuarios exigentes.", description: "Materiales premium, rendimiento superior y cámaras profesionales.", specs: ["Pantalla 6.1" , "Chip A18", "256GB", "Triple cámara Pro", "ProMotion" ] },
+  { id: 1504, name: "iPhone 15 Pro Max", slug: "iphone-15-pro-max", category: "iPhone", price: 1399999, stock: 9, image: img("iPhone 15 Pro Max"), shortDescription: "Máximo rendimiento y cámara.", description: "La experiencia más completa en tamaño grande.", specs: ["Pantalla 6.7" , "Chip A18", "256GB", "Triple cámara Pro", "ProMotion" ] },
+
+  // iPhone 16 series
+  { id: 1601, name: "iPhone 16", slug: "iphone-16", category: "iPhone", price: 1099999, stock: 28, image: img("iPhone 16"), shortDescription: "Generación siguiente.", description: "Velocidad mejorada y fotografía con IA.", specs: ["Pantalla 6.1" , "Chip A19", "128GB", "Cámara con IA", "USB-C" ] },
+  { id: 1602, name: "iPhone 16 Plus", slug: "iphone-16-plus", category: "iPhone", price: 1199999, stock: 18, image: img("iPhone 16 Plus"), shortDescription: "Más grande, más eficiente.", description: "Pantalla amplia con rendimiento optimizado y batería notable.", specs: ["Pantalla 6.7" , "Chip A19", "128GB", "Cámara con IA", "USB-C" ] },
+  { id: 1603, name: "iPhone 16 Pro", slug: "iphone-16-pro", category: "iPhone", price: 1399999, stock: 12, image: img("iPhone 16 Pro"), shortDescription: "Pro de nueva generación.", description: "Potencia de alto nivel y fotografía avanzada en un formato compacto.", specs: ["Pantalla 6.1" , "Chip A19 Pro", "256GB", "Triple cámara Pro", "120Hz" ] },
+  { id: 1604, name: "iPhone 16 Pro Max", slug: "iphone-16-pro-max", category: "iPhone", price: 1499999, stock: 8, image: img("iPhone 16 Pro Max"), shortDescription: "La experiencia definitiva.", description: "Pantalla grande, cámaras profesionales y batería de larga duración.", specs: ["Pantalla 6.7" , "Chip A19 Pro", "256GB", "Triple cámara Pro", "120Hz" ] },
+
+  // iPhone 17 series
+  { id: 1701, name: "iPhone 17", slug: "iphone-17", category: "iPhone", price: 1199999, stock: 24, image: img("iPhone 17"), shortDescription: "Rendimiento inteligente.", description: "Equilibrio entre potencia, cámara y autonomía con mejoras de IA.", specs: ["Pantalla 6.1" , "Chip A20", "128GB", "Cámara con IA", "USB-C" ] },
+  { id: 1702, name: "iPhone 17 Plus", slug: "iphone-17-plus", category: "iPhone", price: 1299999, stock: 16, image: img("iPhone 17 Plus"), shortDescription: "Más grande para más.", description: "Pantalla amplia y batería poderosa con fluidez total.", specs: ["Pantalla 6.7" , "Chip A20", "128GB", "Cámara con IA", "USB-C" ] },
+  { id: 1703, name: "iPhone 17 Pro", slug: "iphone-17-pro", category: "iPhone", price: 1499999, stock: 10, image: img("iPhone 17 Pro"), shortDescription: "Pro para profesionales.", description: "Rendimiento extremo, construcción premium y cámaras de referencia.", specs: ["Pantalla 6.1" , "Chip A20 Pro", "256GB", "Triple cámara Pro", "ProMotion" ] },
+  { id: 1704, name: "iPhone 17 Pro Max", slug: "iphone-17-pro-max", category: "iPhone", price: 1599999, stock: 6, image: img("iPhone 17 Pro Max"), shortDescription: "El flagship definitivo.", description: "Lo mejor en pantalla, cámaras y autonomía.", specs: ["Pantalla 6.7" , "Chip A20 Pro", "256GB", "Triple cámara Pro", "ProMotion" ] },
+
+  // Otros productos premium (no marca oficial)
+  { id: 2101, name: "UltraBook Pro 14", slug: "ultrabook-pro-14", category: "Macs & iPads", price: 1999999, stock: 7, image: img("UltraBook Pro 14"), shortDescription: "Laptop premium ultraligera.", description: "Potente, silenciosa y con batería de larga duración para creadores.", specs: ["Pantalla 14" , "Chip Pro X", "16GB RAM", "512GB SSD", "Teclado retroiluminado" ] },
+  { id: 2102, name: "Pro Tablet X", slug: "pro-tablet-x", category: "Macs & iPads", price: 1299999, stock: 9, image: img("Pro Tablet X"), shortDescription: "Tableta de alto rendimiento.", description: "Pantalla fluida y potencia para trabajo y creación.", specs: ["Pantalla 11" , "Chip X2", "256GB", "120Hz", "USB-C" ] },
+  { id: 3101, name: "Wireless Buds Pro", slug: "wireless-buds-pro", category: "Accesorios", price: 199999, stock: 40, image: img("Wireless Buds Pro"), shortDescription: "Audio nítido y cancelación.", description: "Auriculares true wireless con ANC y gran autonomía.", specs: ["ANC", "Bluetooth 5.3", "Estuche de carga", "Resistencia al agua" ] },
+  { id: 3102, name: "Magnetic Wireless Charger 30W", slug: "magnetic-wireless-charger-30w", category: "Accesorios", price: 89999, stock: 50, image: img("Magnetic Wireless Charger 30W"), shortDescription: "Carga rápida magnética.", description: "Cargador inalámbrico magnético de 30W compatible con estándar Qi.", specs: ["30W", "USB-C", "Cable mallado", "Seguro térmico" ] },
+];
+
+export const getProductBySlug = (slug) => products.find(p => p.slug === slug);
+export const getRelatedProducts = (product, limit = 4) => products.filter(p => p.category === product.category && p.slug !== product.slug).slice(0, limit);

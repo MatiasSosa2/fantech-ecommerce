@@ -1,0 +1,53 @@
+import Link from "next/link";
+import { formatCurrency } from "../../utils/format";
+
+export default function ProductCard({ product, compact = false, variant = 'standard' }) {
+  const tags = [];
+  if (/pro/i.test(product.name)) tags.push("Pro");
+  if (/17/.test(product.name)) tags.push("Nuevo");
+  const isFeatured = ["iphone-17-pro-max", "iphone-17-pro", "ultrabook-pro-14", "pro-tablet-x"].includes(product.slug);
+  if (isFeatured) tags.push("Destacado");
+
+  const variantClass = variant === 'flagship' ? 'card-flagship' : variant === 'accessory' ? 'card-accessory' : '';
+
+  return (
+    <div className={`group ${compact ? '' : 'card'} ${variantClass} relative overflow-hidden bg-white card-structure-shadow hover:card-glow-shadow card-hover stagger-hover focus-accessible`}> 
+      {/* borde inteligente con gradiente (solo en hover) */}
+      <div className="absolute inset-0 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-300 ring-gradient-hover" />
+      <Link href={`/products/${product.slug}`} className="block">
+        <div className={`w-full overflow-hidden ${compact ? 'rounded-t-lg aspect-[4/3]' : 'rounded-t-xl aspect-[4/3]'} image-safe-zone` }>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src={product.image}
+            alt={product.name}
+            className={`w-full h-full object-cover transition-transform duration-300 delay-75 group-hover:scale-105`}
+          />
+        </div>
+      </Link>
+      {/* badge premium con efecto glass */}
+      <div className="absolute top-3 left-3 flex gap-1">
+        {tags.slice(0,2).map(t => (
+          <span key={t} className="glass-badge">{t}</span>
+        ))}
+      </div>
+
+      <div className={`${compact ? 'p-3' : 'p-4'} space-y-2 transition-all duration-300 ease-out group-hover:-translate-y-1`}>
+        <div className="flex items-center justify-between">
+          <span className="badge bg-cyan/15 text-navy">{product.category}</span>
+          <span className="text-xs text-navy/60">Stock: {product.stock}</span>
+        </div>
+        <Link href={`/products/${product.slug}`} className="block font-medium tracking-tight text-navy hover:text-cyan">
+          {product.name}
+        </Link>
+        <p className="text-sm text-navy/70 leading-snug line-clamp-1">{product.shortDescription || "Rendimiento profesional. Diseño premium."}</p>
+        <div className="flex items-center justify-between pt-1">
+          <p className={`${compact ? 'text-base' : 'text-lg'} font-semibold text-navy`}>{formatCurrency(product.price)}</p>
+          <Link href={`/products/${product.slug}`} className="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-navy text-white text-xs focus-accessible">
+            Más
+            <span className="transition-transform duration-200 group-hover:translate-x-0.5" aria-hidden>›</span>
+          </Link>
+        </div>
+      </div>
+    </div>
+  );
+}
