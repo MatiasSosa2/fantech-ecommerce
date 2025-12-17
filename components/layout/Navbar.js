@@ -1,5 +1,6 @@
 import Link from "next/link";
-import { ShoppingCart } from "lucide-react";
+import { ShoppingCart, Menu, X } from "lucide-react";
+import { useState } from "react";
 import { useCart } from "../../context/CartContext";
 
 const links = [
@@ -12,10 +13,13 @@ const links = [
 
 export default function Navbar() {
   const { totalItems, toggleCart } = useCart();
+  const [mobileOpen, setMobileOpen] = useState(false);
   return (
     <header className="sticky top-0 z-50 backdrop-blur-md bg-white/70 border-b border-gray-200">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
-        <Link href="/" className="font-semibold tracking-tight text-navy text-lg">Fantech</Link>
+        <Link href="/" aria-label="Fantech" className="group inline-flex items-center gap-1 font-semibold text-lg">
+          <span className="bg-gradient-to-r from-cyan via-cyan/70 to-navy bg-clip-text text-transparent tracking-wider group-hover:shadow-blueGlow transition">Fantech</span>
+        </Link>
         <nav className="hidden md:flex items-center gap-6">
           {links.map(l => (
             <Link key={l.href} href={l.href} className="text-sm hover:text-cyan transition">
@@ -31,7 +35,32 @@ export default function Navbar() {
             </span>
           )}
         </button>
+        {/* Botón hamburguesa para mobile (a la derecha del carrito) */}
+        <button
+          className="md:hidden inline-flex items-center gap-2 px-2 py-1 rounded-md hover:bg-gray-100 transition"
+          aria-label={mobileOpen ? "Cerrar menú" : "Abrir menú"}
+          onClick={() => setMobileOpen(o => !o)}
+        >
+          {mobileOpen ? <X size={22} /> : <Menu size={22} />}
+        </button>
       </div>
+      {/* Panel móvil */}
+      {mobileOpen && (
+        <div className="md:hidden bg-white/95 backdrop-blur border-t border-gray-200">
+          <nav className="max-w-7xl mx-auto px-4 py-3 flex flex-col gap-2">
+            {links.map(l => (
+              <Link
+                key={l.href}
+                href={l.href}
+                className="py-2 px-2 rounded-md hover:bg-gray-100 text-navy"
+                onClick={() => setMobileOpen(false)}
+              >
+                {l.label}
+              </Link>
+            ))}
+          </nav>
+        </div>
+      )}
       {/* Línea inferior azul marino brillante */}
       <div className="h-[3px] bg-gradient-to-r from-cyan to-navy"></div>
     </header>
