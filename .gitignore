@@ -5,6 +5,9 @@ node_modules/
 .next/
 out/
 
+# Git backup directories (cleanup)
+.git.backup_*/
+
 # Logs
 npm-debug.log*
 yarn-debug.log*
