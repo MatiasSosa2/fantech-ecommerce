@@ -9,5 +9,5 @@ module.exports = {
   images: { unoptimized: true },
   // If you plan to deploy under a subpath (e.g., /fantech-ecommerce),
   // set basePath accordingly and ensure asset URLs work.
-  // basePath: isProd ? '/fantech-ecommerce' : '',
+  basePath: isProd ? '/fantech-ecommerce' : '',
 };
