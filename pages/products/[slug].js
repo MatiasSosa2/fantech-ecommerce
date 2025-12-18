@@ -4,6 +4,7 @@ import { getProductBySlug, getRelatedProducts, products } from "../../data/produ
 import { useCart } from "../../context/CartContext";
 import { useEffect, useMemo, useState } from "react";
 import ProductGrid from "../../components/products/ProductGrid";
+import RelatedCarousel from "../../components/products/RelatedCarousel";
 import { formatCurrency } from "../../utils/format";
 import { Bolt, Battery, Shield, Globe } from "lucide-react";
 
@@ -58,9 +59,9 @@ export default function ProductDetailPage() {
               </div>
             </div>
             <div className="order-1 md:order-2">
-              <div className="aspect-[4/3] rounded-xl overflow-hidden bg-white group shadow-blueGlow">
+              <div className="aspect-[4/3] rounded-xl image-safe-zone bg-white group shadow-blueGlow overflow-hidden flex items-center justify-center">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src={product.image} alt={product.name} className="w-full h-full object-cover img-zoom" />
+                <img src={product.image} alt={product.name} className="w-full h-full object-contain" />
               </div>
             </div>
           </div>
@@ -137,7 +138,7 @@ export default function ProductDetailPage() {
         <section className="section-gradient">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
             <h2 className="text-xl font-semibold mb-4">Productos relacionados</h2>
-            <ProductGrid products={related} compact />
+            <RelatedCarousel products={related} />
           </div>
         </section>
       )}

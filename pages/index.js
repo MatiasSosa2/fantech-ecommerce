@@ -1,6 +1,8 @@
 import Link from "next/link";
 import ProductGrid from "../components/products/ProductGrid";
 import { products } from "../data/products";
+import { formatCurrency } from "../utils/format";
+import { useEffect, useMemo, useState } from "react";
 
 const featured = products.filter(p => ["iphone-17-pro-max", "iphone-17-pro", "ultrabook-pro-14", "pro-tablet-x"].includes(p.slug));
 const latest = products.slice(0, 10);
@@ -53,7 +55,9 @@ export default function HomePage() {
               <div key={p.slug} className="group min-w-[260px] max-w-[260px] card relative overflow-hidden">
                 <Link href={`/products/${p.slug}`} className="block">
                   {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img src={p.image} alt={p.name} className="rounded-t-xl w-full h-[160px] object-cover" />
+                  <div className="rounded-t-xl w-full h-[160px] image-safe-zone flex items-center justify-center">
+                    <img src={p.image} alt={p.name} className="max-h-full max-w-full object-contain" />
+                  </div>
                   <div className="p-3 flex items-center justify-between">
                     <div>
                       <p className="text-sm text-navy/70">{p.category}</p>
@@ -68,22 +72,9 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Oferta Exclusiva */}
+      {/* Oferta Exclusiva (mismo diseño, ahora rotando 3 productos) */}
       <section className="bg-navy text-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14">
-          <div className="grid md:grid-cols-2 gap-8 items-center">
-            <div>
-              <h3 className="text-3xl font-semibold">Oferta Exclusiva</h3>
-              <p className="mt-3 text-white/80">UltraBook Pro 14: potencia silenciosa, diseño minimalista y hasta 18 horas de batería.</p>
-              <div className="mt-6 flex gap-3">
-                <Link href="/products/ultrabook-pro-14" className="btn-cta">Ver detalle</Link>
-                <Link href="/products?category=macs%20%26%20ipads" className="inline-flex items-center px-5 py-3 rounded-md border border-white/30 hover:border-white/60 text-white transition">Más en Macs & iPads</Link>
-              </div>
-            </div>
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src="https://placehold.co/900x600/png?text=UltraBook+Pro+14" alt="UltraBook Pro 14" className="rounded-xl shadow-blueGlow" />
-          </div>
-        </div>
+        <ExclusiveOffer />
       </section>
 
       {/* Categorías */}
@@ -96,6 +87,71 @@ export default function HomePage() {
           <Link href="/products" className="card p-6 text-center hover:shadow-blueGlow ring-1 ring-transparent hover:ring-cyan/30">Todos los Productos</Link>
         </div>
       </section>
+    </div>
+  );
+}
+
+function ExclusiveOffer() {
+  const exclusiveSlugs = ["iphone-17-pro-max", "macbook-air-15-m4", "iphone-17-air"];
+  const exclusive = useMemo(() => products.filter(p => exclusiveSlugs.includes(p.slug)), []);
+  const [index, setIndex] = useState(0);
+
+  useEffect(() => {
+    if (exclusive.length < 2) return;
+    const id = setInterval(() => {
+      setIndex((i) => (i + 1) % exclusive.length);
+    }, 5000);
+    return () => clearInterval(id);
+  }, [exclusive.length]);
+
+  const current = exclusive[index] || exclusive[0];
+  const categoryQuery = current?.category?.toLowerCase() === 'macs & ipads'
+    ? 'macs%20%26%20ipads'
+    : encodeURIComponent((current?.category || '').toLowerCase());
+
+  if (!current) return null;
+
+  return (
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14">
+      <div className="grid md:grid-cols-2 gap-8 items-center">
+        <div>
+          <h3 className="text-3xl font-semibold">Oferta Exclusiva</h3>
+          <div className="mt-3">
+            <p className="text-sm text-white/70">{current.category}</p>
+            <p className="text-2xl font-semibold leading-tight">{current.name}</p>
+          </div>
+          <p className="mt-3 text-white/80">{current.shortDescription}</p>
+          <div className="mt-4 flex flex-wrap gap-2">
+            {(current.specs || []).slice(0,3).map((s) => (
+              <span key={s} className="px-3 py-1 rounded-full bg-white/10 text-white/90 text-xs ring-1 ring-white/15">{s}</span>
+            ))}
+          </div>
+          <div className="mt-5 flex items-center gap-4">
+            <span className="text-xl font-semibold">{formatCurrency(current.price)}</span>
+            <span className="text-white/70 text-sm">Stock: {current.stock}</span>
+          </div>
+          <div className="mt-6 flex gap-3">
+            <Link href={`/products/${current.slug}`} className="btn-cta">Ver detalle</Link>
+            <Link href={`/products?category=${categoryQuery}`} className="inline-flex items-center px-5 py-3 rounded-md border border-white/30 hover:border-white/60 text-white transition">Más en {current.category}</Link>
+          </div>
+        </div>
+        <div className="rounded-xl shadow-blueGlow overflow-hidden">
+          <div className="image-safe-zone aspect-[4/3]">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src={current.image} alt={current.name} className="w-full h-full object-contain" />
+          </div>
+        </div>
+      </div>
+      <div className="mt-8 flex items-center justify-center gap-3">
+        {exclusive.map((_, i) => (
+          <button
+            key={i}
+            onClick={() => setIndex(i)}
+            aria-label={`Ir al slide ${i + 1}`}
+            className={`w-2.5 h-2.5 rounded-full transition ${i === index ? 'bg-white' : 'bg-white/40 hover:bg-white/60'}`}
+          />
+        ))}
+      </div>
     </div>
   );
 }

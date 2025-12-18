@@ -1,7 +1,12 @@
 import Link from "next/link";
+import { useRef, useState } from "react";
 import { formatCurrency } from "../../utils/format";
 
 export default function ProductCard({ product, compact = false, variant = 'standard' }) {
+  const cardRef = useRef(null);
+  const frameRef = useRef(0);
+  const [tilt, setTilt] = useState({ x: 0, y: 0 });
+
   const tags = [];
   if (/pro/i.test(product.name)) tags.push("Pro");
   if (/17/.test(product.name)) tags.push("Nuevo");
@@ -10,8 +15,43 @@ export default function ProductCard({ product, compact = false, variant = 'stand
 
   const variantClass = variant === 'flagship' ? 'card-flagship' : variant === 'accessory' ? 'card-accessory' : '';
 
+  const handleMouseMove = (e) => {
+    const el = cardRef.current;
+    if (!el) return;
+    const rect = el.getBoundingClientRect();
+    const rx = (e.clientX - rect.left) / rect.width; // 0..1
+    const ry = (e.clientY - rect.top) / rect.height; // 0..1
+    const rotY = (rx - 0.5) * 12; // -6..6
+    const rotX = (0.5 - ry) * 12; // -6..6
+    if (frameRef.current) return;
+    frameRef.current = requestAnimationFrame(() => {
+      setTilt({ x: rotX, y: rotY });
+      frameRef.current = 0;
+    });
+  };
+
+  const handleMouseLeave = () => {
+    setTilt({ x: 0, y: 0 });
+  };
+
+  const tiltStyle = {
+    transform: `perspective(800px) rotateX(${tilt.x}deg) rotateY(${tilt.y}deg)`,
+    transition: 'transform 120ms ease-out',
+    willChange: 'transform',
+  };
+
+  const imgParallaxStyle = {
+    transform: `translateX(${tilt.y * 0.8}px) translateY(${(-tilt.x) * 0.8}px)`,
+  };
+
   return (
-    <div className={`group ${compact ? '' : 'card'} ${variantClass} relative overflow-hidden bg-white card-structure-shadow hover:card-glow-shadow card-hover stagger-hover focus-accessible`}> 
+    <div
+      ref={cardRef}
+      onMouseMove={handleMouseMove}
+      onMouseLeave={handleMouseLeave}
+      style={tiltStyle}
+      className={`group ${compact ? '' : 'card'} ${variantClass} relative overflow-hidden bg-white card-structure-shadow hover:card-glow-shadow card-hover stagger-hover focus-accessible`}
+    > 
       {/* borde inteligente con gradiente (solo en hover) */}
       <div className="absolute inset-0 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-300 ring-gradient-hover" />
       <Link href={`/products/${product.slug}`} className="block">
@@ -20,7 +60,8 @@ export default function ProductCard({ product, compact = false, variant = 'stand
           <img
             src={product.image}
             alt={product.name}
-            className={`w-full h-full object-cover transition-transform duration-300 delay-75 group-hover:scale-105`}
+            className={`w-full h-full object-contain transition-transform duration-300 delay-75 group-hover:scale-[1.03]`}
+            style={imgParallaxStyle}
           />
         </div>
       </Link>
