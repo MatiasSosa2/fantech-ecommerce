@@ -14,6 +14,7 @@ export default function ProductDetailPage() {
   const related = useMemo(() => (product ? getRelatedProducts(product) : []), [product]);
   const { addToCart } = useCart();
   const [qty, setQty] = useState(1);
+  const [pop, setPop] = useState(false);
 
   useEffect(() => setQty(1), [product?.slug]);
 
@@ -55,7 +56,12 @@ export default function ProductDetailPage() {
                   <span className="px-4">{qty}</span>
                   <button onClick={() => setQty(q => Math.min(99, q + 1))} className="px-3 py-2 hover:bg-gray-100">+</button>
                 </div>
-                <button className="btn-cta active:brightness-90 active:scale-[0.98] active:bg-cyan/90" onClick={() => addToCart(product, qty)}>Agregar al carrito</button>
+                <button
+                  className={`btn-cta hover:bg-navy ${pop ? 'btn-pop' : ''}`}
+                  onClick={() => { setPop(true); addToCart(product, qty); setTimeout(() => setPop(false), 240); }}
+                >
+                  Agregar al carrito
+                </button>
               </div>
             </div>
             <div className="order-1 md:order-2">
