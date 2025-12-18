@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { ShoppingCart, Menu, X } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useCart } from "../../context/CartContext";
 
 const links = [
@@ -14,6 +14,17 @@ const links = [
 export default function Navbar() {
   const { totalItems, toggleCart } = useCart();
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [animateAdd, setAnimateAdd] = useState(false);
+  const prevCountRef = useRef(totalItems);
+
+  useEffect(() => {
+    if (totalItems > prevCountRef.current) {
+      setAnimateAdd(true);
+      const t = setTimeout(() => setAnimateAdd(false), 900);
+      return () => clearTimeout(t);
+    }
+    prevCountRef.current = totalItems;
+  }, [totalItems]);
   return (
     <header className="sticky top-0 z-50 backdrop-blur-md bg-white/70 border-b border-gray-200">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
@@ -27,13 +38,11 @@ export default function Navbar() {
             </Link>
           ))}
         </nav>
-        <button onClick={toggleCart} aria-label="Carrito" className="relative p-2 rounded-md hover:bg-gray-100 transition">
-          <ShoppingCart size={24} className="text-navy" />
-          {totalItems > 0 && (
-            <span className="absolute -top-1 -right-1 min-w-[22px] h-5 px-1.5 text-[11px] rounded-full bg-green-500 text-gray-700/80 flex items-center justify-center shadow-blueGlow">
-              {totalItems}
-            </span>
-          )}
+        <button onClick={toggleCart} aria-label="Carrito" className={`relative p-2 rounded-md transition ${totalItems === 0 ? 'bg-white border border-black hover:bg-white' : 'bg-white hover:bg-gray-100'}`}>
+          <ShoppingCart size={24} className={totalItems === 0 ? "text-black" : "text-green-600"} />
+          <span className={`absolute -top-1 -right-1 min-w-[22px] h-5 px-1.5 text-[11px] rounded-full flex items-center justify-center ${totalItems === 0 ? 'bg-white border border-black text-gray-500' : 'bg-green-500 text-white'} ${animateAdd && totalItems > 0 ? 'cart-added' : ''}`}>
+            {totalItems}
+          </span>
         </button>
         {/* Botón hamburguesa para mobile (a la derecha del carrito) */}
         <button

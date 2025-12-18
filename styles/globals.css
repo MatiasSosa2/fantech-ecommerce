@@ -131,4 +131,14 @@ a { @apply text-navy; }
   .details-content {
     @apply px-4 pb-4 text-sm text-navy/80;
   }
+
+  @keyframes cartAddedPulse {
+    0% { transform: scale(1); box-shadow: 0 0 0 rgba(16, 185, 129, 0.0); }
+    25% { transform: scale(1.15); box-shadow: 0 0 14px rgba(16, 185, 129, 0.45); }
+    50% { transform: scale(0.98); box-shadow: 0 0 10px rgba(16, 185, 129, 0.35); }
+    100% { transform: scale(1); box-shadow: 0 0 0 rgba(16, 185, 129, 0.0); }
+  }
+  .cart-added {
+    animation: cartAddedPulse 900ms ease-out;
+  }
 }
