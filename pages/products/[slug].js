@@ -55,7 +55,7 @@ export default function ProductDetailPage() {
                   <span className="px-4">{qty}</span>
                   <button onClick={() => setQty(q => Math.min(99, q + 1))} className="px-3 py-2 hover:bg-gray-100">+</button>
                 </div>
-                <button className="btn-cta" onClick={() => addToCart(product, qty)}>Agregar al carrito</button>
+                <button className="btn-cta active:brightness-90 active:scale-[0.98] active:bg-cyan/90" onClick={() => addToCart(product, qty)}>Agregar al carrito</button>
               </div>
             </div>
             <div className="order-1 md:order-2">
