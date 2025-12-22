@@ -50,7 +50,9 @@ export function CartProvider({ children }) {
   const clearCart = () => setItems([]);
 
   const checkoutWhatsApp = (phoneNumber = "") => {
-    openWhatsAppWithCart(items, totalPrice, phoneNumber);
+    const envPhone = typeof process !== 'undefined' ? process.env.NEXT_PUBLIC_WHATSAPP_NUMBER : "";
+    const targetPhone = (phoneNumber && phoneNumber.trim()) || (envPhone && envPhone.trim()) || "";
+    openWhatsAppWithCart(items, totalPrice, targetPhone);
   };
 
   const value = {

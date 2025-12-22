@@ -28,6 +28,7 @@ Sitio de e-commerce premium inspirado en la estética minimalista del ecosistema
 2. Abre el drawer o la página `/cart`.
 3. Presiona “Finalizar compra” → se genera mensaje con lista, cantidades, precio unitario y total.
 4. Redirección a `wa.me` con el texto formateado. Para configurar un número destino, edita `checkoutWhatsApp(phone)` o agrega tu número en el llamado.
+5. Alternativamente, define `NEXT_PUBLIC_WHATSAPP_NUMBER` en `.env.local` y llama `checkoutWhatsApp()` sin argumentos.
 
 ## Scripts
 ```bash
@@ -48,6 +49,21 @@ npm start
 - Catálogo mock listo para conectar a backend real.
 - Sin librerías de animación ni UI kits. Solo Tailwind.
 - Pages Router (no App Router).
+ - Variables de entorno: usa `.env.local` (ignorado por git) para `NEXT_PUBLIC_*` en cliente.
 
 ## Screenshots (agregar)
 - Home, detalle, carrito, flujo WhatsApp.
+ 
+## Deploy a GitHub Pages
+Opciones:
+- Deploy por rama usando la carpeta `docs/` o deploy automatizado con GitHub Actions (ver `.github/workflows/pages.yml`).
+
+Configuración en Settings → Pages:
+- Source: "Deploy from a branch"
+- Branch: `main` (o tu rama principal)
+- Folder: `/docs`
+
+Notas importantes para Pages:
+- Agrega el archivo [`docs/.nojekyll`](docs/.nojekyll) para que GitHub Pages sirva carpetas con guión bajo (como [`docs/_next`](docs/_next)).
+- El sitio publicado usa [`docs/index.html`](docs/index.html); el `README.md` del repositorio no se muestra en el sitio.
+- Verifica que todos los assets necesarios estén dentro de `docs/`.
